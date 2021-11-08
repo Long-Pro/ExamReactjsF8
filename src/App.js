@@ -1,23 +1,38 @@
-import logo from './logo.svg';
-import './App.css';
+import { useReducer } from "react"
+
+//  useReducer
+// 1. Init state
+const initState=0
+// 2. Action
+const UP_ACTION='up'
+const DOWN_ACTION='down'
+// 3. Reducer
+const reducer=(state,action)=>{
+  switch(action){
+    case UP_ACTION:
+      return state+1
+    case DOWN_ACTION:
+      return state-1
+    default:
+      throw new Error('Invalid action') 
+  }
+}
 
 function App() {
+  const [count,dispatch]=useReducer(reducer,initState)
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div style={{padding:'20px'}}>
+      <h1>{count}</h1>
+      <button
+        onClick={()=>dispatch(DOWN_ACTION)}
+      >
+        Down
+      </button>
+      <button
+        onClick={()=>dispatch(UP_ACTION)}
+      >
+        Up
+      </button>
     </div>
   );
 }
