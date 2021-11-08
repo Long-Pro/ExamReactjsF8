@@ -1,25 +1,32 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useState,useEffect } from 'react';
 
 function App() {
+  
+
+  const [jobs,setJobs]=useState(()=>{
+    const storeJobs=JSON.parse(localStorage.getItem('jobs'))??[]
+    return storeJobs
+  })
+  const [job,setJob]=useState('')
+  const handleSubmit=(e)=>{
+    let newJobs=[...jobs,job]
+    const jsonNewJobs=JSON.stringify(newJobs)
+    localStorage.setItem('jobs',jsonNewJobs)
+    setJobs(newJobs)
+    setJob('')
+  }
+  console.log(job)
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div style={{padding:32}} >
+      <input type='text' 
+        value={job}
+        onChange={e=>setJob(e.target.value)}
+      />
+      <button onClick={handleSubmit}> Add</button>
+      <ul>
+        {jobs.map((item,index)=><li key={index}>{item}</li>)}
+      </ul>
     </div>
   );
 }
-
-export default App;
+export default App
